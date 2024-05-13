@@ -10,6 +10,7 @@ const fetchData = async function (searchTerm) {
         s: searchTerm,
       },
     });
+
     const { data } = response;
     console.log(data);
   } catch (error) {
@@ -19,20 +20,8 @@ const fetchData = async function (searchTerm) {
 
 const input = document.querySelector("input");
 
-function debounce(callback, delay = 1000) {
-  let timeOutID;
-  return (...args) => {
-    // Input debouncing
-    timeOutID && clearTimeout(timeOutID);
-
-    timeOutID = setTimeout(() => {
-      callback.apply(null, args);
-    }, delay);
-  };
-}
-
-const onInput = debounce((e) => {
+const onInput = (e) => {
   fetchData(e.target.value);
-}, 1000);
+};
 
-input.addEventListener("input", onInput);
+input.addEventListener("input", debounce(onInput, 1000));
