@@ -11,8 +11,9 @@ const fetchData = async function (searchTerm) {
       },
     });
 
-    const { data } = response;
-    console.log(data);
+    const { Search: search } = response.data;
+
+    return search;
   } catch (error) {
     console.error(error.message);
   }
@@ -20,8 +21,10 @@ const fetchData = async function (searchTerm) {
 
 const input = document.querySelector("input");
 
-const onInput = (e) => {
-  fetchData(e.target.value);
+const onInput = async (e) => {
+  const movies = await fetchData(e.target.value);
+
+  console.log(movies);
 };
 
 input.addEventListener("input", debounce(onInput, 1000));
