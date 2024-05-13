@@ -11,6 +11,10 @@ const fetchData = async function (searchTerm) {
       },
     });
 
+    if (response.data.Error) {
+      return [];
+    }
+
     const { Search: search } = response.data;
 
     return search;
@@ -24,7 +28,16 @@ const input = document.querySelector("input");
 const onInput = async (e) => {
   const movies = await fetchData(e.target.value);
 
-  console.log(movies);
+  movies.forEach((movie) => {
+    const { Poster: poster, Title: title } = movie;
+
+    const div = document.createElement("div");
+    div.innerHTML = `
+    <img src='${poster}'/>
+    <h1>${title}<h1/>
+    `;
+    document.querySelector(".target").appendChild(div);
+  });
 };
 
 input.addEventListener("input", debounce(onInput, 1000));
