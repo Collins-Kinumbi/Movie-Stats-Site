@@ -69,3 +69,7 @@ const onInput = async (e) => {
 };
 
 input.addEventListener("input", debounce(onInput, 1000));
+
+document.addEventListener("click", (e) => {
+  !root.contains(e.target) && dropdown.classList.remove("is-active");
+});
