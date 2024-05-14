@@ -56,7 +56,7 @@ const onInput = async (e) => {
   dropdown.classList.add("is-active");
 
   movies.forEach((movie) => {
-    const { Poster: poster, Title: title } = movie;
+    const { Poster: poster, Title: title, imdbID: id } = movie;
 
     const option = document.createElement("a");
 
@@ -72,6 +72,7 @@ const onInput = async (e) => {
     option.addEventListener("click", () => {
       dropdown.classList.remove("is-active");
       input.value = title;
+      onMovieSelect(id);
     });
 
     resultsWrapper.appendChild(option);
@@ -83,3 +84,14 @@ input.addEventListener("input", debounce(onInput, 1000));
 document.addEventListener("click", (e) => {
   !root.contains(e.target) && dropdown.classList.remove("is-active");
 });
+
+async function onMovieSelect(id) {
+  const response = await axios.get(`http://www.omdbapi.com/`, {
+    params: {
+      apikey: key,
+      i: id,
+    },
+  });
+
+  console.log(response.data);
+}
