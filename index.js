@@ -23,20 +23,44 @@ const fetchData = async function (searchTerm) {
   }
 };
 
+const root = document.querySelector(".autocomplete");
+
+root.innerHTML = `
+  <lable><b>Search for a movie</b></lable>
+  <input class='input'/>
+  <div class='dropdown'>
+     <div class='dropdown-menu'>
+       <div class="dropdown-content results">
+     </div>
+  </div>
+
+
+`;
+
 const input = document.querySelector("input");
+
+const dropdown = document.querySelector(".dropdown");
+
+const resultsWrapper = document.querySelector(".results");
 
 const onInput = async (e) => {
   const movies = await fetchData(e.target.value);
 
+  dropdown.classList.add("is-active");
+
   movies.forEach((movie) => {
     const { Poster: poster, Title: title } = movie;
 
-    const div = document.createElement("div");
-    div.innerHTML = `
+    const option = document.createElement("a");
+
+    option.classList.add("dropdown-item");
+
+    option.innerHTML = `
     <img src='${poster}'/>
-    <h1>${title}<h1/>
+    ${title}
     `;
-    document.querySelector(".target").appendChild(div);
+
+    resultsWrapper.appendChild(option);
   });
 };
 
