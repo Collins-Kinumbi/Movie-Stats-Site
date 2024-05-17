@@ -2,8 +2,7 @@
 
 const key = "712040f4";
 
-createAutoComplete({
-  root: document.querySelector(".autocomplete"),
+const autoCompleteConfig = {
   renderOption(movie) {
     const { Poster: poster, Title: title, Year: year } = movie;
 
@@ -44,6 +43,18 @@ createAutoComplete({
       console.error(error.message);
     }
   },
+};
+
+// Left autocomplete
+createAutoComplete({
+  root: document.querySelector("#left-autocomplete"),
+  ...autoCompleteConfig,
+});
+
+// right autocomplete
+createAutoComplete({
+  root: document.querySelector("#right-autocomplete"),
+  ...autoCompleteConfig,
 });
 
 async function onMovieSelect(id) {
