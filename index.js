@@ -2,27 +2,6 @@
 
 const key = "712040f4";
 
-const fetchData = async function (searchTerm) {
-  try {
-    const response = await axios.get(`http://www.omdbapi.com/`, {
-      params: {
-        apikey: key,
-        s: searchTerm,
-      },
-    });
-
-    if (response.data.Error) {
-      return [];
-    }
-
-    const { Search: search } = response.data;
-
-    return search;
-  } catch (error) {
-    console.error(error.message);
-  }
-};
-
 createAutoComplete({
   root: document.querySelector(".autocomplete"),
   renderOption(movie) {
@@ -44,6 +23,27 @@ createAutoComplete({
     const { Title: title } = movie;
     return title;
   },
+
+  async fetchData(searchTerm) {
+    try {
+      const response = await axios.get(`http://www.omdbapi.com/`, {
+        params: {
+          apikey: key,
+          s: searchTerm,
+        },
+      });
+
+      if (response.data.Error) {
+        return [];
+      }
+
+      const { Search: search } = response.data;
+
+      return search;
+    } catch (error) {
+      console.error(error.message);
+    }
+  },
 });
 
 async function onMovieSelect(id) {
@@ -64,6 +64,7 @@ function movieTemplate(movieDetail) {
   const {
     Poster: poster,
     Title: title,
+    Year: year,
     Genre: genre,
     Type: type,
     Plot: plot,
@@ -83,7 +84,7 @@ function movieTemplate(movieDetail) {
      </figure>
      <div class='media-content'>
        <div class='content'>
-         <h1>${title}</h1>
+         <h1>${title} (${year})</h1>
          <h4>${genre}</h4>
          <h4>${type}</h4>
          <p>${plot}</p>
