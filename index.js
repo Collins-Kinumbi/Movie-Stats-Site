@@ -14,11 +14,6 @@ const autoCompleteConfig = {
     `;
   },
 
-  onOptionSelect(movie) {
-    document.querySelector(".tutorial").classList.add("is-hidden");
-    onMovieSelect(movie);
-  },
-
   inputValue(movie) {
     const { Title: title } = movie;
     return title;
@@ -50,15 +45,23 @@ const autoCompleteConfig = {
 createAutoComplete({
   root: document.querySelector("#left-autocomplete"),
   ...autoCompleteConfig,
+  onOptionSelect(movie) {
+    document.querySelector(".tutorial").classList.add("is-hidden");
+    onMovieSelect(movie, document.querySelector("#left-summary"));
+  },
 });
 
 // right autocomplete
 createAutoComplete({
   root: document.querySelector("#right-autocomplete"),
   ...autoCompleteConfig,
+  onOptionSelect(movie) {
+    document.querySelector(".tutorial").classList.add("is-hidden");
+    onMovieSelect(movie, document.querySelector("#right-summary"));
+  },
 });
 
-async function onMovieSelect(id) {
+async function onMovieSelect(id, summaryEl) {
   const response = await axios.get(`http://www.omdbapi.com/`, {
     params: {
       apikey: key,
@@ -69,7 +72,7 @@ async function onMovieSelect(id) {
   // console.log(response.data);
   const { data } = response;
   // console.log(data);
-  document.querySelector("#summary").innerHTML = movieTemplate(data);
+  summaryEl.innerHTML = movieTemplate(data);
 }
 
 function movieTemplate(movieDetail) {
