@@ -1,4 +1,9 @@
-function createAutoComplete({ root, renderOption }) {
+function createAutoComplete({
+  root,
+  renderOption,
+  onOptionSelect,
+  inputValue,
+}) {
   // console.log(root);
   root.innerHTML = `
     <lable><b>Search for a movie</b></lable>
@@ -29,7 +34,7 @@ function createAutoComplete({ root, renderOption }) {
     dropdown.classList.add("is-active");
 
     movies.forEach((movie) => {
-      const { Title: title, imdbID: id } = movie;
+      const { imdbID: id } = movie;
 
       const option = document.createElement("a");
 
@@ -39,8 +44,8 @@ function createAutoComplete({ root, renderOption }) {
 
       option.addEventListener("click", () => {
         dropdown.classList.remove("is-active");
-        input.value = title;
-        onMovieSelect(id);
+        input.value = inputValue(movie);
+        onOptionSelect(id);
       });
 
       resultsWrapper.appendChild(option);

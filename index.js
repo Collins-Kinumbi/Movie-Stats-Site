@@ -35,6 +35,15 @@ createAutoComplete({
         ${title} (${year})
     `;
   },
+
+  onOptionSelect(movie) {
+    onMovieSelect(movie);
+  },
+
+  inputValue(movie) {
+    const { Title: title } = movie;
+    return title;
+  },
 });
 
 async function onMovieSelect(id) {
