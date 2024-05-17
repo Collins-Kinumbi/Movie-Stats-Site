@@ -81,7 +81,28 @@ async function onMovieSelect(id, summaryEl, side) {
   leftMovie && rightMovie && runComparison();
 
   function runComparison() {
-    console.log("Comparison time");
+    const leftSideStats = document.querySelectorAll(
+      "#left-summary .notification"
+    );
+    const rightSideStats = document.querySelectorAll(
+      "#right-summary .notification"
+    );
+
+    leftSideStats.forEach((leftStat, index) => {
+      const rightStat = rightSideStats[index];
+
+      const leftSideValue = leftStat.dataset.value;
+
+      const rightSideValue = rightStat.dataset.value;
+
+      if (rightSideValue > leftSideValue) {
+        leftStat.classList.remove("is-primary");
+        leftStat.classList.add("is-warning");
+      } else {
+        rightStat.classList.remove("is-primary");
+        rightStat.classList.add("is-warning");
+      }
+    });
   }
 }
 
@@ -114,10 +135,8 @@ function movieTemplate(movieDetail) {
     return prev + value;
   }, 0);
 
-  console.log(movieAwards);
-
   return `
-   <article class='media'>
+   <article class='media' >
      <figure class="media-left">
        <p class='image'>
        <img src='${poster}'/>
@@ -132,23 +151,27 @@ function movieTemplate(movieDetail) {
        </div>
      </div>
    </article>
-   <article class='notification is-primary'>
+   <article data-value=${movieAwards} class='notification is-primary'>
      <p class='title'>${awards ? awards : "N/A"}</p>
      <p class='subtitle'>Awards</p>
    </article>
-   <article class='notification is-primary'>
+
+   <article data-value=${dollars} class='notification is-primary'>
      <p class='title'>${boxOffice ? boxOffice : "N/A"}</p>
      <p class='subtitle'>Box Office</p>
    </article>
-   <article class='notification is-primary'>
+
+   <article data-value=${metaScore} class='notification is-primary'>
      <p class='title'>${metascore ? metascore : "N/A"}</p>
      <p class='subtitle'>Metascore</p>
    </article>
-   <article class='notification is-primary'>
+
+   <article data-value=${imdbR} class='notification is-primary'>
      <p class='title'>${imdbRating ? imdbRating : "N/A"}</p>
      <p class='subtitle'>IMDB Rating</p>
    </article>
-   <article class='notification is-primary'>
+
+   <article data-value=${votes} class='notification is-primary'>
      <p class='title'>${imdbVotes ? imdbVotes : "N/A"}</p>
      <p class='subtitle'>IMDB votes</p>
    </article>
