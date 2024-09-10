@@ -121,7 +121,7 @@ function movieTemplate(movieDetail) {
     imdbVotes,
   } = movieDetail;
 
-  const dollars = parseInt(boxOffice.replace(/\$/g, "").replace(/,/g, ""));
+  const dollars = parseInt(boxOffice?.replace(/\$/g, "").replace(/,/g, ""));
   const metaScore = parseInt(metascore);
   const imdbR = parseFloat(imdbRating);
   const votes = parseFloat(imdbVotes.replace(/,/g, ""));
